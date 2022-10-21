@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+import os
+from multiprocessing import context
+from email.message import EmailMessage
+#import ssl
+import smtplib
+import time
+
+
+def makeli(mails):
+    """EMAIL LIST WITHOUT SPACES"""
+    list_email=[]
+    mails=mails.split(",")
+    for mail in  mails:
+        mail=mail.strip()
+        list_email.append(mail)
+    return(mails)
+def  SEND():
+    """Sends email"""
+    email="<email>@gmail.com" #your email
+    email_pass= "<email pass" #is better to make an env
+    email email_receiver select one of two 
+    #email_r=input("Write emails reseivers(separete with ','):")
+    #email_receiver=makeli(email_r)
+    or
+    #email_receiver=["<email>@gmail.com","<email>@gmail.com"]
+    subject= "<subject>"
+    #attach= ["text.txt","text.txt"]
+    #more friendly env
+    #subject= str(input("Wirte Subject:"))
+    body=str(input("Wirte body:"))
+    for i in email_receiver:
+        """sends to each individual"""
+        time.sleep(3) #delay time in sec
+        em = EmailMessage()
+        em["From"]= email
+        em["To"]= i
+        em["Subject"]=subject
+        #add attach not ready yet
+        #for j in attach:
+            #with open(j, "rb") as content_file:
+                #content = content_file.read()
+                #email.add_attachment(content, maintype="application", subtype="pdf", filename="text.txt")
+        em.set_content(body)
+        context =ssl.create_default_context()
+        with smtplib.SMTP_SSL('smtp.gmail.com',465,context=context) as smtp:
+            """Login to gmail and sends email"""
+            smtp.login(email,email_pass)
+            smtp.sendmail(email,i,em.as_string())
+            print(i,"sended")
+    return("DONE")
+print(SEND())
